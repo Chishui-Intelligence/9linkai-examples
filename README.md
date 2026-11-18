@@ -55,6 +55,7 @@ codex
 
 - **地址要不要带 /v1？** Anthropic 协议不带，OpenAI 协议要带。写反会报 404。
 - **报 401？** Key 填错或前后多了空格；先用 [`curl/test.sh`](curl/test.sh) 单独验证。
+- **Claude Code 能开 Code Mode 吗？** 不能，Code Mode 只支持直连 Anthropic 官方，所有中转都会提示 `isn't available`，见 [Code Mode 说明](https://9linkai.com/guide/code-mode)。
 - **报 404 model_not_found？** 模型名写错，或者 Key 所在分组没有这个模型；用 `GET /v1/models` 查看可用模型。
 
 更多说明见[使用指南](https://9linkai.com/guide)和[错误码说明](https://9linkai.com/errors)。
