@@ -1,6 +1,8 @@
-"""久连 9LinkAI 自助验真：检查官方接口才有的协议特征。只用 Python 标准库。
+"""API 网关 / 中转自助验真：检查官方 Anthropic、OpenAI 接口才有的协议特征。只用 Python 标准库。
+默认检查久连 9LinkAI，也可以检查任何 Anthropic / OpenAI 兼容的网关（设 VERIFY_BASE_URL）。
 
     NINELINK_CLAUDE_KEY=sk-... NINELINK_OPENAI_KEY=sk-... python3 verify.py
+    VERIFY_BASE_URL=https://your-gateway.example.com NINELINK_CLAUDE_KEY=... python3 verify.py
 
 两个 Key 可以是同一个（如果你的分组同时有 Claude 和 GPT）。只设其中一个时，另一类检查会跳过。
 整套检查大约消耗几毛钱。建议用一个专门建的、额度很低的 Key，测完删掉。
@@ -10,7 +12,8 @@ import os
 import urllib.error
 import urllib.request
 
-BASE = "https://api.9linkai.com"
+# 网关根地址（不带 /v1）；Anthropic 接口拼 /v1/messages，OpenAI 接口拼 /v1/responses
+BASE = os.environ.get("VERIFY_BASE_URL", "https://api.9linkai.com").rstrip("/").removesuffix("/v1")
 CLAUDE_KEY = os.environ.get("NINELINK_CLAUDE_KEY", "")
 OPENAI_KEY = os.environ.get("NINELINK_OPENAI_KEY", "")
 CLAUDE_MODEL = os.environ.get("NINELINK_CLAUDE_MODEL", "claude-sonnet-5-5")
